@@ -2,7 +2,31 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
+import os
+
 # Create your views here.
 class FileUploader(APIView):
-    def get(self,request):
-        return Response(status=status.HTTP_200_OK)
+    def get(self, request,format=None):
+        media_path = settings.MEDIA_ROOT
+        if os.path.exists(media_path):
+            files = os.listdir(media_path)
+            return Response({'files': files}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Media directory not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request,format=None):
+        file = request.FILES.get('file')
+        if not file:
+            return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        media_path = settings.MEDIA_ROOT
+        if not os.path.exists(media_path):
+            os.makedirs(media_path)
+
+        file_path = os.path.join(media_path, file.name)
+        with open(file_path, 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
+
+        return Response({'message': f'File {file.name} uploaded successfully'}, status=status.HTTP_201_CREATED)

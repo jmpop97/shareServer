@@ -17,14 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.views.static import serve
-def permissionTest(user):
-    print(user)
-    return True
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/',include("usersApp.urls")),
     path('files/',include("filesApp.urls")),
-    path("media/<path:path>",user_passes_test(permissionTest)(serve),{'document_root': settings.MEDIA_ROOT})
 ]

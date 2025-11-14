@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'usersApp.middleware.CookieJWTMiddleware'
 ]
 
 ROOT_URLCONF = 'shareproject.urls'
