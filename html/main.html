@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <script>
+        async function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/files/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert('Files uploaded successfully!');
+                } else {
+                    alert('Failed to upload files.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while uploading files.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Upload Files</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="file">Choose files:</label>
+        <input type="file" id="file" name="files" multiple required>
+        <button type="submit">Upload</button>
+    </form>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', handleFormSubmit);
+    </script>
+</body>
+</html>
