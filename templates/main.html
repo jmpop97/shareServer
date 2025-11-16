@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload</title>
+    <script src="env.js"></script>
     <script>
         async function handleFormSubmit(event) {
             event.preventDefault(); // Prevent the default form submission
@@ -12,7 +13,7 @@
             const formData = new FormData(form);
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/files/', {
+                const response = await fetch(API_URL + '/files/', {
                     method: 'POST',
                     body: formData
                 });
