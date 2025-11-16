@@ -11,7 +11,7 @@ def permissionTest(user, path):
             return True
         else:
             return False
-    return False
+    return True
 
 urlpatterns = [
     path("",views.FileUploader.as_view(),name="files"),
