@@ -6,8 +6,11 @@ from django.conf import settings
 def permissionTest(user, path):
     print("USER:", user)
     print("PATH:", path)
-    if user.is_staff:
-        return True
+    if path == "admin.jpg":
+        if user.is_staff:
+            return True
+        else:
+            return False
     return False
 
 urlpatterns = [
