@@ -30,6 +30,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         try:
             response = super().post(request, *args, **kwargs)
+            print(response)
             access_token = response.data.get('access')
             refresh_token = response.data.get('refresh')
             if access_token and refresh_token:
