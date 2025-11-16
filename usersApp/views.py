@@ -8,6 +8,7 @@ from django.conf import settings
 from rest_framework_simplejwt.views import TokenObtainPairView
 from usersApp.serializers import CustomTokenObtainPairSerializer
 import os
+from django.http import JsonResponse
 front_url= os.environ.get("URL_FRONTEND")
 class UserView(APIView):
     def get(self, request, format=None):
@@ -17,6 +18,12 @@ class UserView(APIView):
             'auth': str(request.auth),  # None
         }
         return Response(content)
+class UserLogout(APIView):
+    def post(self,request,format=None):
+        print("work")
+        response = JsonResponse({'message': 'Logged out'})
+        response.delete_cookie('jwt_access')  # 삭제해야 하는 쿠키 이름
+        return response
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 

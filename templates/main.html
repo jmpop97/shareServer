@@ -53,6 +53,18 @@
             }
         }
 
+        async function logout() {
+            fetch(URL_BACKEND+"/user/logout/", {
+                method: "POST",
+                credentials: "include",  // 중요: 쿠키 전송
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Logged out!");
+                }
+            });
+        }
+    
         window.addEventListener('DOMContentLoaded', () => {
             fetchFileList();
             document.getElementById('uploadForm').addEventListener('submit', handleFormSubmit);
@@ -62,6 +74,7 @@
 <body>
     <h1>Login</h1>
         <button onclick="window.location.href=URL_FRONTEND + '/login.html'">Go to Login Page</button>
+        <button onclick="logout()">로그아웃</button>
     <h1>Upload Files</h1>
     <form id="uploadForm" enctype="multipart/form-data">
         <label for="file">Choose files:</label>
