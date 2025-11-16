@@ -22,6 +22,7 @@ from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/',include("usersApp.urls")),
-    path('files/',include("filesApp.urls")),
+    path('user/', include("usersApp.urls")),
+    path('files/', include("filesApp.urls")),
+    path('html/<path:path>', serve, {'document_root': settings.TEMPLATES_ROOT }),
 ]
