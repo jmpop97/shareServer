@@ -6,9 +6,32 @@
     <title>File Upload</title>
     <script src="env.js"></script>
     <script>
-        async function handleFormSubmit(event) {
-            event.preventDefault(); // Prevent the default form submission
+        async function fetchFileList() {
+            try {
+                const response = await fetch(URL_BACKEND + '/files/');
+                if (response.ok) {
+                    const filesJson = await response.json();
+                    const files =filesJson["files"];
+                    const fileList = document.getElementById('fileList');
+                    fileList.innerHTML = '';
+                    files.forEach(file => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.textContent = file;
+                        a.href = URL_BACKEND + '/files/' + file;
+                        fileList.appendChild(li);
+                        li.appendChild(a);
+                    });
+                } else {
+                    console.error('Failed to fetch file list.');
+                }
+            } catch (error) {
+                console.error('Error fetching file list:', error);
+            }
+        }
 
+        async function handleFormSubmit(event) {
+            event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
 
@@ -20,6 +43,7 @@
 
                 if (response.ok) {
                     alert('Files uploaded successfully!');
+                    await fetchFileList();
                 } else {
                     alert('Failed to upload files.');
                 }
@@ -28,17 +52,23 @@
                 alert('An error occurred while uploading files.');
             }
         }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchFileList();
+            document.getElementById('uploadForm').addEventListener('submit', handleFormSubmit);
+        });
     </script>
 </head>
 <body>
+    <h1>Login</h1>
+        <button onclick="window.location.href=URL_FRONTEND + '/login.html'">Go to Login Page</button>
     <h1>Upload Files</h1>
     <form id="uploadForm" enctype="multipart/form-data">
         <label for="file">Choose files:</label>
         <input type="file" id="file" name="files" multiple required>
         <button type="submit">Upload</button>
     </form>
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', handleFormSubmit);
-    </script>
+    <h2>Uploaded Files</h2>
+    <ul id="fileList"></ul>
 </body>
 </html>
