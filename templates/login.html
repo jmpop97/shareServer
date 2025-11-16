@@ -4,10 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Token Request</title>
+    <script src="env.js"></script>
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch(URL_BACKEND + '/user/token/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            // Handle response (e.g., show token or error)
+            alert(JSON.stringify(data));
+        }
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginForm').addEventListener('submit', submitForm);
+        });
+    </script>
 </head>
 <body>
     <h1>Get Token</h1>
-    <form action="http://127.0.0.1:8000/user/token/" method="POST" enctype="multipart/form-data">
+    <form id="loginForm">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>

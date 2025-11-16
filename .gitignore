@@ -2,3 +2,4 @@ venv
 db.sqlite3
 shareproject/.env
 media/
+templates/env.js

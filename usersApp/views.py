@@ -7,7 +7,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.conf import settings
 from rest_framework_simplejwt.views import TokenObtainPairView
 from usersApp.serializers import CustomTokenObtainPairSerializer
-front_url="http://127.0.0.1:5500/html"
+import os
+front_url= os.environ.get("URL_FRONTEND")
 class UserView(APIView):
     def get(self, request, format=None):
         content = {
