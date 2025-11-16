@@ -37,14 +37,12 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 response.set_cookie(
                     key='jwt_access',
                     value=access_token,
-                    httponly=True,
                     secure=True,
                     samesite='Lax'
                 )
                 response.set_cookie(
                     key='jwt_refresh',
                     value=refresh_token,
-                    httponly=True,
                     secure=True,
                     samesite='Lax'
                 )
