@@ -13,7 +13,7 @@
             const formData = new FormData(form);
 
             try {
-                const response = await fetch(API_URL + '/files/', {
+                const response = await fetch(URL_BACKEND + '/files/', {
                     method: 'POST',
                     body: formData
                 });
