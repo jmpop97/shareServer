@@ -1,5 +1,4 @@
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
@@ -25,12 +24,13 @@ class UserLogout(APIView):
         response.delete_cookie('jwt_access')  # 삭제해야 하는 쿠키 이름
         return response
 class CustomTokenObtainPairView(TokenObtainPairView):
+    renderer_classes = [JSONRenderer]
     serializer_class = CustomTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
         try:
             response = super().post(request, *args, **kwargs)
-            print(response)
+            print("Response data:", response.data)
             access_token = response.data.get('access')
             refresh_token = response.data.get('refresh')
             if access_token and refresh_token:
